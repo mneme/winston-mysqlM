@@ -1,23 +1,40 @@
 {
-	"name": "winston-mysqlM",
-	"description": "A Mysql transport for winston",
-	"version": "0.0.1",
-	"author": "David Olsson",
-	"repository": {
-		"type": "git",
-		"url": "http://github.com/mneme/winston-mysql.git"
-	},
-	"keywords": ["logging", "sysadmin", "tools", "winston", "mysql"],
-	"devDependencies": {
-		"winston": "=0.7.x",
-		"mysql": "2.0.x",
-		"mocha": "1.12.x",
-		"chai": "1.7.x"
-	},
-	"peerDependencies": {
-		"winston": ">=0.7.x",
-		"mysql": "2.0.x"
-	},
-	"main": "./lib/winston-mysql",
-	"engines": { "node": ">= 0.10.x" }
+  "name": "winston-mysqlm",
+  "description": "A Mysql transport for winston",
+  "version": "0.0.2",
+  "author": "David Olsson",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mneme/winston-mysqlm.git"
+  },
+  "keywords": [
+    "logging",
+    "sysadmin",
+    "tools",
+    "winston",
+    "mysql"
+  ],
+  "devDependencies": {
+    "winston": "0.7.x",
+    "mysql": "2.0.x",
+    "mocha": "1.12.x",
+    "chai": "1.7.x"
+  },
+  "peerDependencies": {
+    "winston": "0.7.x",
+    "mysql": "2.0.x"
+  },
+  "main": "./lib/winston-mysql",
+  "engines": {
+    "node": ">= 0.10.x"
+  },
+  "readmeFilename": "README.md",
+  "gitHead": "d8c6e330bf8a4bf401aef295ed4275b9eaa05958",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "license": "BSD"
 }
