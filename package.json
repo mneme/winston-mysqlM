@@ -1,7 +1,7 @@
 {
   "name": "winston-mysqlm",
   "description": "A Mysql transport for winston",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "David Olsson",
   "repository": {
     "type": "git",

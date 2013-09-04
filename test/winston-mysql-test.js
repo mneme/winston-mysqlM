@@ -1,16 +1,15 @@
 var 	
 	should = require('chai').should(),
-	Winston = require('Winston'),
+	winston = require('winston'),
 	Mysql = require('../lib/winston-mysql.js').Mysql,
 
 	con = require('./test-setup').con,
 	DB = require('./test-setup').DB;
 
-var transport = new Mysql({connection:con});
-
-
 
 describe('winston-mysql', function() {
+	var transport = new Mysql({connection:con});
+
 	it('should be an instance of mysql', function(){
 		transport.should.be.an.instanceof(Mysql)
 	});
@@ -19,18 +18,17 @@ describe('winston-mysql', function() {
 		transport.log.should.be.a('Function')
 	});
 
+	it('should register as a transport', function(){
+		winston.transports.Mysql.should.equal(Mysql);
+	});
+
 });
-
-var logger = new (Winston.Logger);
-		logger.add(Mysql, {connection:con});
-
-
 
 describe('winston-mysql #log', function() {
 
 	describe('silent', function() {
-		var logger = new (Winston.Logger);
-		logger.add(Mysql, {connection:con, silent: true});
+		var logger = new (winston.Logger);
+		logger.add(winston.transports.Mysql, {connection:con, silent: true});
 
 		it('should not log when silent',function(done){
 			logger.log('info', 'testmessage', function(err, level, msg, meta){
@@ -45,12 +43,12 @@ describe('winston-mysql #log', function() {
 
 	describe('logging', function(){
 
-		var logger = new (Winston.Logger);
-		logger.add(Mysql, {connection:con});
+		var logger 
 
-		afterEach(function(done){
+		beforeEach(function(done){
 			DB.clear(function(err){
-				
+				logger = new (winston.Logger);
+				logger.add(Mysql, {connection:con});
 				done();
 			});
 		});
