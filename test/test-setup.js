@@ -1,41 +1,35 @@
 var 
 	mysql = require('mysql')
 
-var pool  = mysql.createPool({
+var con  = {
   host     : 'localhost',
   user     : 'root',
   password : 'bullfest',
   database : 'logg' 
-});
+};
 
 
 var DB = {
+  connection: con,
 	clear: function(callback){
-		pool.getConnection(function(err, connection) {
-    	if(err){
-    		callback(err);
-    		return;
-    	}
-  		connection.query('DELETE FROM winstonlog', function(err, rows) {
-        callback(null);
-    		connection.release();
-  		});
-		}); 
+    var self = this;
+  	var connection = mysql.createConnection(this.connection);
+    connection.query('DELETE FROM winstonlog', function(err, rows) {
+      if (callback) callback(null);
+    	connection.end();
+  	}); 
 	},
 
 	get: function(callback){
-		pool.getConnection(function(err, connection) {
-	   	if(err){
-    		callback(err, null);
-    		return;
-    	}
-  		connection.query('SELECT * FROM winstonlog', function(err, rows) {
-    		callback(null, rows)
-    		connection.release();
-  		});
-		}); 
-	},
+		var self = this;
+    var connection = mysql.createConnection(this.connection);
+    
+    connection.query('SELECT * FROM winstonlog', function(err, rows) {
+      if (callback) callback(null, rows)
+  		connection.end();
+		});
+	}
 }
 
+exports.con = con;
 exports.DB = DB;
-exports.pool = pool;

@@ -3,14 +3,12 @@ var
 	Winston = require('Winston'),
 	Mysql = require('../lib/winston-mysql.js').Mysql,
 
-	pool = require('./test-setup').pool,
+	con = require('./test-setup').con,
 	DB = require('./test-setup').DB;
 
+var transport = new Mysql({connection:con});
 
-var transport = new Mysql(pool);
 
-
-DB.clear(function(){});
 
 describe('winston-mysql', function() {
 	it('should be an instance of mysql', function(){
@@ -21,18 +19,18 @@ describe('winston-mysql', function() {
 		transport.log.should.be.a('Function')
 	});
 
-	it('should be added to winston transports', function(){
-		Winston.transports.Mysql
-	});
-
 });
+
+var logger = new (Winston.Logger);
+		logger.add(Mysql, {connection:con});
+
 
 
 describe('winston-mysql #log', function() {
 
 	describe('silent', function() {
 		var logger = new (Winston.Logger);
-		logger.add(Mysql, {pool:pool, silent: true});
+		logger.add(Mysql, {connection:con, silent: true});
 
 		it('should not log when silent',function(done){
 			logger.log('info', 'testmessage', function(err, level, msg, meta){
@@ -48,11 +46,11 @@ describe('winston-mysql #log', function() {
 	describe('logging', function(){
 
 		var logger = new (Winston.Logger);
-		logger.add(Mysql, {pool:pool});
+		logger.add(Mysql, {connection:con});
 
 		afterEach(function(done){
 			DB.clear(function(err){
-				if (err) throw err;
+				
 				done();
 			});
 		});
@@ -75,6 +73,7 @@ describe('winston-mysql #log', function() {
 			
 			logger.log('error', 'this is an error', metadata, function(err, level, msg, meta){
 				DB.get(function(err, rows){
+
 					rows.should.have.length(1);
 					
 					JSON.parse(rows[0].meta).should.eql(metadata);
