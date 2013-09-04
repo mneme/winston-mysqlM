@@ -21,6 +21,10 @@ describe('winston-mysql', function() {
 		transport.log.should.be.a('Function')
 	});
 
+	it('should be added to winston transports', function(){
+		Winston.transports.Mysql
+	});
+
 });
 
 
@@ -41,7 +45,7 @@ describe('winston-mysql #log', function() {
 		});
 	});
 
-	describe('logg', function(){
+	describe('logging', function(){
 
 		var logger = new (Winston.Logger);
 		logger.add(Mysql, {pool:pool});
@@ -55,7 +59,7 @@ describe('winston-mysql #log', function() {
 		
 
 		it('should save message', function(done){
-			logger.log('error', 'this is an error', function(err, level, msg, meta){
+			logger.log('info', 'this is an error', function(err, level, msg, meta){
 				DB.get(function(err, rows){
 					
 					rows.should.have.length(1);
